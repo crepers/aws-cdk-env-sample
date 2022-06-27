@@ -1,16 +1,17 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Stack, StackProps, Duration } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { AppContext } from './app-context';
 
 export class CdkEnvStack extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
-    super(scope, id, props);
-
-    // The code that defines your stack goes here
-
+  constructor(appContext: AppContext, id: string, props?: StackProps) {
+    super(appContext.cdkApp, id, props);
+  
     // example resource
-    // const queue = new sqs.Queue(this, 'CdkEnvQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    const queue = new sqs.Queue(this, `CdkEnvQueue${appContext.appConfig.ns}`, {
+      visibilityTimeout: Duration.seconds(300)
+    });
   }
+  
+  
 }
